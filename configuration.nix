@@ -90,17 +90,16 @@
     btop
   ];
 
+  programs.bash.shellAliases = {
+    la = "ls -alh";
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-  };
-
-  # TODO: this doesn't seem to work correctly
-  programs.bash.shellAliases = {
-    la = "ls -alh";
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
@@ -151,10 +150,10 @@
   #};
 
   #networking.firewall.allowedTCPPorts = [ 22 53 ];
-  networking.interfaces.end0.ipv4.addresses = [ {
-    address = "192.168.1.200";
-    prefixLength = 24;
-  } ];
+  #networking.interfaces.end0.ipv4.addresses = [ {
+  #  address = "192.168.1.200";
+  #  prefixLength = 24;
+  #} ];
 
   system.stateVersion = "23.11";
 }
