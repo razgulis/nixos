@@ -17,4 +17,5 @@ connect via ssh using "nixos" and created password
   nixos-rebuild switch
   nixos-rebuild switch --update
   nix-collect-garbage -d
+  switch-to-configuration
 ```
