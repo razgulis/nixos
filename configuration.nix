@@ -8,8 +8,6 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  networking.hostName = "nixos";
-
   time.timeZone = "America/Denver";
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -17,6 +15,18 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
   
+  networking = {
+    hostName = "nixos";
+    #interfaces.end0.ipv4.addresses = [{
+    #  address = "192.168.1.200";
+    #  prefixLength = 24;
+    #}];
+    defaultGateway = "192.168.1.1";
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    firewall.allowedTCPPorts = [ 22 53 ];
+    firewall.allowedUDPPorts = [53];
+  };
+
 #  nixpkgs = {
 #    # You can add overlays here
 #    overlays = [
@@ -64,6 +74,7 @@
 #        enable = true;
 #        userName = "Sergei Razgulin";
 #        userEmail = "sergei.razgulin@gmail.com";
+#        
 #      };
 #    };
 #  };
@@ -80,10 +91,8 @@
     };
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     git
     tldr
@@ -93,6 +102,20 @@
   programs.bash.shellAliases = {
     la = "ls -alh";
   };
+
+  #programs.git = {
+  #  enable = true;
+  #  userName = "Sergei Razgulin";
+  #  userEmail = "sergei.razgulin@gmail.com";
+  #  extraConfig = {
+  #    "alias.co" = "checkout";
+  #    "alias.ci" = "commit";
+  #    "alias.st" = "status";
+  #    "alias.br" = "branch";
+  #    merge.tool = "vimdiff";
+  #    merge.conflicstyle = "diff3";
+  #  };
+  #};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -148,13 +171,6 @@
   #    };
   #  };
   #};
-
-  #networking.firewall.allowedTCPPorts = [ 22 53 ];
-  #networking.firewall.allowedUDPPorts = [53];
-  #networking.interfaces.end0.ipv4.addresses = [ {
-  #  address = "192.168.1.200";
-  #  prefixLength = 24;
-  #} ];
 
   system.stateVersion = "23.11";
 }
