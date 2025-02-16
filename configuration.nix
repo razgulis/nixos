@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
+    /etc/nixos/hardware-configuration.nix
   ];
 
   boot.loader.grub.enable = false;
@@ -150,6 +150,7 @@
   #};
 
   #networking.firewall.allowedTCPPorts = [ 22 53 ];
+  #networking.firewall.allowedUDPPorts = [53];
   #networking.interfaces.end0.ipv4.addresses = [ {
   #  address = "192.168.1.200";
   #  prefixLength = 24;

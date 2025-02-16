@@ -19,3 +19,19 @@ connect via ssh using "nixos" and created password
   nix-collect-garbage -d
   switch-to-configuration
 ```
+
+## Rolling back
+```bash
+  sudo nix-env -p /nix/var/nix/profiles/system --list-generations
+  sudo nixos-rebuild switch --rollback #this goes back one generation
+  sudo nix-env -p /nix/var/nix/profiles/system --switch-generation 6
+  sudo nixos-rebuild switch
+```
+
+## Pin a rollback generation
+```bash
+  # first create an additional link to the generation, so that it is not cleaned up during garbage collection:
+  sudo ln -s /nix/var/nix/profiles/system-6 /nix/var/nix/keep-system-6
+  # to release this version, simply delete the link
+  sudo rm /nix/var/nix/keep-system-6 
+```
