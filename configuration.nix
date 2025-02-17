@@ -22,11 +22,14 @@
       prefixLength = 16;
     }];
     defaultGateway = "192.168.1.1";
-    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    #nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    #nameservers = [ "127.0.0.1" ];
+    nameservers = [ "192.168.1.100" ];
     firewall.allowedTCPPorts = [ 22 53 ];
     firewall.allowedUDPPorts = [53];
   };
 
+# TODO: probalby not needed, since we're running headless
 #  nixpkgs = {
 #    # You can add overlays here
 #    overlays = [
@@ -47,6 +50,7 @@
 #    };
 #  };
 
+# TODO: figure out if we need flakes (probably?)
 #  nix = let
 #    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 #  in {
@@ -66,6 +70,7 @@
 #    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 #  };
 
+# TODO: figure out how to add Home Manager
 #  config = {
 #    home-manager.users.nixos = {
 #      # home-manager settings
@@ -137,40 +142,45 @@
   };
 
   # Blocky Ad Blocking
-  #services.blocky = {
-  #  enable = false;
-  #  settings = {
-  #    ports.dns = 53; # Port for incoming DNS Queries.
-  #    upstreams.groups.default = [
-  #      "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
-  #    ];
-  #    # For initially solving DoH/DoT Requests when no system Resolver is available.
-  #    bootstrapDns = {
-  #      upstream = "https://one.one.one.one/dns-query";
-  #      ips = [ "1.1.1.1" "1.0.0.1" ];
-  #    };
-  #    #Enable Blocking of certian domains.
-  #    blocking = {
-  #      blackLists = {
-  #        #Adblocking
-  #        ads = ["https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"];
-  #        #Another filter for blocking adult sites
-  #        #adult = ["https://blocklistproject.github.io/Lists/porn.txt"];
-  #        #You can add additional categories
-  #      };
-  #      #Configure what block categories are used
-  #      clientGroupsBlock = {
-  #        default = [ "ads" ];
-  #      #  kids-ipad = ["ads" "adult"];
-  #      };
-  #    };
-  #    caching = {
-  #      prefetching = true;
-  #      minTime = "5m";
-  #      maxTime = "30m";
-  #    };
-  #  };
-  #};
+  services.blocky = {
+    enable = true;
+    settings = {
+      ports = {
+        dns = [ "53" ];
+      };
+      #upstreams.groups.default = [
+      #  "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
+      #];
+      upstreamGroups = {
+        default = [ "https://one.one.one.one/dns-query" ];
+      };
+      # For initially solving DoH/DoT Requests when no system Resolver is available.
+      bootstrapDns = {
+        upstream = "https://one.one.one.one/dns-query";
+        ips = [ "1.1.1.1" "1.0.0.1" ];
+      };
+      #Enable Blocking of certian domains.
+      blocking = {
+        blackLists = {
+          #Adblocking
+          ads = ["https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"];
+          #Another filter for blocking adult sites
+          #adult = ["https://blocklistproject.github.io/Lists/porn.txt"];
+          #You can add additional categories
+        };
+        #Configure what block categories are used
+        clientGroupsBlock = {
+          default = [ "ads" ];
+        #  kids-ipad = ["ads" "adult"];
+        };
+      };
+      caching = {
+        prefetching = true;
+        minTime = "5m";
+        maxTime = "30m";
+      };
+    };
+  };
 
   system.stateVersion = "23.11";
 }
