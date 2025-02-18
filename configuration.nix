@@ -22,9 +22,7 @@
       prefixLength = 16;
     }];
     defaultGateway = "192.168.1.1";
-    #nameservers = [ "1.1.1.1" "8.8.8.8" ];
-    #nameservers = [ "127.0.0.1" ];
-    nameservers = [ "192.168.1.100" ];
+    nameservers = [ "127.0.0.1" ];
     firewall.allowedTCPPorts = [ 22 53 ];
     firewall.allowedUDPPorts = [53];
   };
@@ -141,19 +139,18 @@
     };
   };
 
-  # Blocky Ad Blocking
+  # Blocky Ad Blocking, version 0.21
   services.blocky = {
     enable = true;
     settings = {
-      ports = {
-        dns = [ "53" ];
-      };
-      #upstreams.groups.default = [
-      #  "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
-      #];
-      upstreamGroups = {
-        default = [ "https://one.one.one.one/dns-query" ];
-      };
+      port = 53;
+      upstream.default = [
+        "1.1.1.1"
+        "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
+      ];
+      #upstreamGroups = {
+      #  default = [ "https://one.one.one.one/dns-query" ];
+      #};
       # For initially solving DoH/DoT Requests when no system Resolver is available.
       bootstrapDns = {
         upstream = "https://one.one.one.one/dns-query";
