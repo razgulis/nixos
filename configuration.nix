@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+  sharedHomeConfig = import ./home-manager.nix;
+in {
   imports = [
     /etc/nixos/hardware-configuration.nix
     (import (builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz") {}).nixos
@@ -86,19 +88,23 @@
 
   # TODO: figure out how to add Home Manager
   # Home Manager Settings
-  home-manager.users.nixos = {
-    home.stateVersion = "23.05";
-    
-    programs.git = {
-      enable = true;
-      userName = "Sergei Razgulin";
-      userEmail = "sergei.razgulin@gmail.com";
-      extraConfig = {
-        core = {
-          editor = "vim";
-        };
-      };
-    };
+  #home-manager.users.nixos = {
+  #  home.stateVersion = "23.05";
+  #  
+  #  programs.git = {
+  #    enable = true;
+  #    userName = "Sergei Razgulin";
+  #    userEmail = "sergei.razgulin@gmail.com";
+  #    extraConfig = {
+  #      core = {
+  #        editor = "vim";
+  #      };
+  #    };
+  #  };
+  #};
+  home-manager.users = {
+    nixos = sharedHomeConfig;
+    root = sharedHomeConfig;
   };
 
   users.users = {
