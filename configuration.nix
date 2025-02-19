@@ -71,37 +71,7 @@ in {
 #    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 #  };
 
-#  home-manager.users.alice = { pkgs, ... }: {
-#    # Set the Home Manager state version (ensure it matches your release)
-#    home.stateVersion = "23.05";
-#
-#    # Enable some Home Manager programs
-#    programs.zsh.enable = true;
-#    programs.git.enable = true;
-#
-#    # User-specific packages
-#    home.packages = with pkgs; [
-#      htop
-#      neovim
-#    ];
-#  };
-
-  # TODO: figure out how to add Home Manager
-  # Home Manager Settings
-  #home-manager.users.nixos = {
-  #  home.stateVersion = "23.05";
-  #  
-  #  programs.git = {
-  #    enable = true;
-  #    userName = "Sergei Razgulin";
-  #    userEmail = "sergei.razgulin@gmail.com";
-  #    extraConfig = {
-  #      core = {
-  #        editor = "vim";
-  #      };
-  #    };
-  #  };
-  #};
+  # Home manager settings by user (see home-manager.nix)
   home-manager.users = {
     nixos = sharedHomeConfig;
     root = sharedHomeConfig;
@@ -127,23 +97,10 @@ in {
     btop
   ];
 
+  # Shell Aliases
   programs.bash.shellAliases = {
     la = "ls -alh";
   };
-
-  #programs.git = {
-  #  enable = true;
-  #  userName = "Sergei Razgulin";
-  #  userEmail = "sergei.razgulin@gmail.com";
-  #  extraConfig = {
-  #    "alias.co" = "checkout";
-  #    "alias.ci" = "commit";
-  #    "alias.st" = "status";
-  #    "alias.br" = "branch";
-  #    merge.tool = "vimdiff";
-  #    merge.conflicstyle = "diff3";
-  #  };
-  #};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
