@@ -1,8 +1,9 @@
-{ lib, config, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
+    (import (builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz") {}).nixos
   ];
 
   boot.loader.grub.enable = false;
@@ -24,7 +25,7 @@
     defaultGateway = "192.168.1.1";
     nameservers = [ "127.0.0.1" ];
     firewall.allowedTCPPorts = [ 22 53 ];
-    firewall.allowedUDPPorts = [53];
+    firewall.allowedUDPPorts = [ 53 ];
   };
 
 # TODO: probalby not needed, since we're running headless
@@ -68,19 +69,37 @@
 #    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 #  };
 
-# TODO: figure out how to add Home Manager
-#  config = {
-#    home-manager.users.nixos = {
-#      # home-manager settings
-#    
-#      programs.git = {
-#        enable = true;
-#        userName = "Sergei Razgulin";
-#        userEmail = "sergei.razgulin@gmail.com";
-#        
-#      };
-#    };
+#  home-manager.users.alice = { pkgs, ... }: {
+#    # Set the Home Manager state version (ensure it matches your release)
+#    home.stateVersion = "23.05";
+#
+#    # Enable some Home Manager programs
+#    programs.zsh.enable = true;
+#    programs.git.enable = true;
+#
+#    # User-specific packages
+#    home.packages = with pkgs; [
+#      htop
+#      neovim
+#    ];
 #  };
+
+  # TODO: figure out how to add Home Manager
+  # Home Manager Settings
+  home-manager.users.nixos = {
+    home.stateVersion = "23.05";
+    
+    programs.git = {
+      enable = true;
+      userName = "Sergei Razgulin";
+      userEmail = "sergei.razgulin@gmail.com";
+      extraConfig = {
+        core = {
+          editor = "vim";
+        };
+      };
+    };
+  };
 
   users.users = {
     nixos = {

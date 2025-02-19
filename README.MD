@@ -35,3 +35,13 @@ connect via ssh using "nixos" and created password
   # to release this version, simply delete the link
   sudo rm /nix/var/nix/keep-system-6 
 ```
+
+## System Status and such
+```bash
+  # blocky
+  systemctl status blocky
+  journalctl -u blocky
+
+  # home manager
+  systemctl status home-manager-nixos.service
+```
