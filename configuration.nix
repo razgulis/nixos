@@ -82,10 +82,6 @@ in {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       hashedPassword = "$6$80gp/ojgA8ZqDfbL$pyDmE661eynqmHl3UVemsw57vuxf5Yg.GQe9VTXGW8e4VnAcqgVWViJWz8s4hXIUOWpq.U0BpAjfetBrOAftz/";
-      #   packages = with pkgs; [
-      #     firefox
-      #     tree
-      #   ];
     };
   };
 
@@ -102,8 +98,7 @@ in {
     la = "ls -alh";
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
+  # Some programs need SUID wrappers, can be configured further or are started in user sessions.
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
@@ -111,7 +106,6 @@ in {
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
-  # Feel free to remove if you don't need it.
   services.openssh = {
     enable = true;
     settings = {
@@ -130,9 +124,6 @@ in {
         "1.1.1.1"
         "https://one.one.one.one/dns-query" # Using Cloudflare's DNS over HTTPS server for resolving queries.
       ];
-      #upstreamGroups = {
-      #  default = [ "https://one.one.one.one/dns-query" ];
-      #};
       # For initially solving DoH/DoT Requests when no system Resolver is available.
       bootstrapDns = {
         upstream = "https://one.one.one.one/dns-query";
