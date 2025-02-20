@@ -137,10 +137,11 @@ in {
           #Another filter for blocking adult sites
           #adult = ["https://blocklistproject.github.io/Lists/porn.txt"];
           #You can add additional categories
+          special = [ "/etc/nixos/custom-block-list.txt" ];
         };
         #Configure what block categories are used
         clientGroupsBlock = {
-          default = [ "ads" ];
+          default = [ "ads" "special" ];
         #  kids-ipad = ["ads" "adult"];
         };
       };
