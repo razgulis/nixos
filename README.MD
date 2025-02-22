@@ -11,6 +11,12 @@ connect via ssh using "nixos" and created password
   sudo su root
   nixos-generate-config
 ```
+check out this repository into /home/nixos/repositories/nixos
+```bash
+  ln /home/nixos/repositories/nixos/configuration.nix /etc/nixos/configuration.nix
+  ln /home/nixos/repositories/nixos/custom-block-list.txt /etc/nixos/custom-block-list.txt
+```
+
 
 ## Useful commands
 ```bash
